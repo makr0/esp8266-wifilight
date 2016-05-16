@@ -62,6 +62,7 @@ void setup ( void ) {
     pinMode ( led, OUTPUT );
     digitalWrite ( led, 0 );
     strip.Begin();
+    pat_solidColor();
     strip.Show();
 
     Serial.begin ( 115200 );
@@ -81,8 +82,6 @@ void setup ( void ) {
     server.onNotFound ( handleNotFound );
     server.begin();
     Serial.println ( "HTTP server started" );
-    pat_solidColor();
-    strip.Show();
 }
 void loop ( void ) {
     server.handleClient();

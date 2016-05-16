@@ -1,6 +1,6 @@
 struct globalState_t {
  HslColor color;
-} globalState = { HslColor(0,1,0.2) };
+} globalState = { HslColor(0,0,0.1) };
 
 uint16_t lastPixel = 0; // track the eye position
 int8_t moveDir = 1; // track the direction of movement
