@@ -5,19 +5,24 @@
 #include <NeoPixelAnimator.h>
 #include "wifi_credentials.h"
 #include "helpers.h"
+
 #define pixelCount 16
-#define colorSaturation 255
+#define NUM_ANIMATIONS 5
 NeoPixelBus<NeoGrbFeature, NeoEsp8266Uart800KbpsMethod> strip(pixelCount, 4);
-NeoPixelAnimator animations(10);
+NeoPixelAnimator animations(NUM_ANIMATIONS+1);
 
 ESP8266WebServer server ( 80 );
+
+#include "ledstate.h"
 #include "effects.h"
 const int led = 13;
 int effect_active = 0;
 void handleSetEffect() {
   String effect;
   effect_active = 0;
-  digitalWrite ( led, 1 );
+  for( int i=0; i <= NUM_ANIMATIONS; i++) {
+      animations.StopAnimation(i);
+  }
   if (server.args() > 0 ) {
     for ( uint8_t i = 0; i < server.args(); i++ ) {
       if (server.argName(i) == "e") {
@@ -58,12 +63,14 @@ void handleNotFound() {
     server.send ( 404, "text/plain", message );
     digitalWrite ( led, 0 );
 }
+
 void setup ( void ) {
     pinMode ( led, OUTPUT );
     digitalWrite ( led, 0 );
+    initializeLedstate();
     strip.Begin();
+    effect_active=1;
     pat_solidColor();
-    strip.Show();
 
     Serial.begin ( 115200 );
     WiFi.begin ( ssid, password );
