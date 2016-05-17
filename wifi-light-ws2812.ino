@@ -13,10 +13,10 @@ NeoPixelAnimator animations(NUM_ANIMATIONS+1);
 
 ESP8266WebServer server ( 80 );
 
+int effect_active = 0;
+int wifi_setup_done = 0;
 #include "ledstate.h"
 #include "effects.h"
-const int led = 13;
-int effect_active = 0;
 void handleSetEffect() {
   String effect;
   effect_active = 0;
@@ -41,14 +41,16 @@ void handleSetEffect() {
     out += "playing effect:"+effect;
   } else {
     out += "effect:"+effect+" not found\n";
-    out += "available effects:";
-    out += listEffects();
   }
   server.send ( 200, "text/plain", out );
-  digitalWrite ( led, 0 );
+}
+void handleListEffects() {
+  String out = "";
+  out += "available effects:";
+  out += listEffects();
+  server.send ( 200, "text/plain", out );
 }
 void handleNotFound() {
-    digitalWrite ( led, 1 );
     String message = "File Not Found\n\n";
     message += "URI: ";
     message += server.uri();
@@ -61,39 +63,38 @@ void handleNotFound() {
         message += " " + server.argName ( i ) + ": " + server.arg ( i ) + "\n";
     }
     server.send ( 404, "text/plain", message );
-    digitalWrite ( led, 0 );
 }
 
 void setup ( void ) {
-    pinMode ( led, OUTPUT );
-    digitalWrite ( led, 0 );
     initializeLedstate();
     strip.Begin();
     effect_active=1;
-    pat_solidColor();
+    pat_lauflicht();
 
-    Serial.begin ( 115200 );
     WiFi.begin ( ssid, password );
+    Serial.begin ( 115200 );
     Serial.println ( "" );
-    // Wait for connection
-    while ( WiFi.status() != WL_CONNECTED ) {
-        delay ( 500 );
-        Serial.print ( "." );
-    }
-    Serial.println ( "" );
-    Serial.print ( "Connected to " );
-    Serial.println ( ssid );
-    Serial.print ( "IP address: " );
-    Serial.println ( WiFi.localIP() );
-    server.on ( "/effect", handleSetEffect );
-    server.onNotFound ( handleNotFound );
-    server.begin();
-    Serial.println ( "HTTP server started" );
 }
 void loop ( void ) {
-    server.handleClient();
-    if( effect_active ) {
-      animations.UpdateAnimations();
-      strip.Show();
+  if(!wifi_setup_done ) {
+    if( WiFi.status() == WL_CONNECTED ) {
+      Serial.println ( "" );
+      Serial.print ( "Connected to " );
+      Serial.println ( ssid );
+      Serial.print ( "IP address: " );
+      Serial.println ( WiFi.localIP() );
+      server.on ( "/effect", handleSetEffect );
+      server.on ( "/effects", handleListEffects );
+      server.onNotFound ( handleNotFound );
+      server.begin();
+      Serial.println ( "HTTP server started" );
+      wifi_setup_done = 1;
     }
+  } else {
+    server.handleClient();
+  }
+  if( effect_active ) {
+    animations.UpdateAnimations();
+    strip.Show();
+  }
 }

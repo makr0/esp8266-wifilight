@@ -33,6 +33,7 @@ void pat_solidColor() {
     for (uint16_t i=0; i<=progress * strip.PixelCount(); i++) {
         strip.SetPixelColor(i, globalState.color[0]);
     }
+    if (param.state == AnimationState_Completed) effect_active=0;
   });
 }
 
@@ -71,7 +72,7 @@ void animFN_lauflicht(const AnimationParam& param) {
 void pat_lauflicht() {
     int fadeSpeed=5;
     int speed=800;
-    int8_t fade;
+    int8_t fade=1;
 
     if (server.args() > 0 ) { for ( uint8_t i = 0; i < server.args(); i++ ) {
       if (server.argName(i) == "speed") speed = urldecode(server.arg(i)).toInt();
