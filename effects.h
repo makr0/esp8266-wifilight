@@ -11,9 +11,10 @@ AnimEaseFunction moveEase =
 //      NeoEase::CircularInOut;
 
 // parameter: h,s,l
-void pat_solidColor() {
+void pat_solidColor( JsonObject *out ) {
   int i,speed=500;
   float h,s,l;
+
   if (server.args() > 1 ) {
     for ( uint8_t i = 0; i < server.args(); i++ ) {
       if (server.argName(i) == "h") h = urldecode(server.arg(i)).toFloat();
@@ -22,9 +23,6 @@ void pat_solidColor() {
       if (server.argName(i) == "speed") speed = urldecode(server.arg(i)).toInt();
     }
     globalState.color[0] = HslColor(h,s,l);
-    Serial.println ( "set new Color" );
-  } else {
-    Serial.println ( "using old Color" );
   }
 
   animations.StartAnimation(0, speed, [](const AnimationParam& param) {
@@ -35,6 +33,10 @@ void pat_solidColor() {
     }
     if (param.state == AnimationState_Completed) effect_active=0;
   });
+
+  out->set("h",h);
+  out->set("s",s);
+  out->set("l",l);
 }
 
 void animFN_lauflicht(const AnimationParam& param) {
@@ -69,7 +71,7 @@ void animFN_lauflicht(const AnimationParam& param) {
 }
 
 // parameter: speed, fade
-void pat_lauflicht() {
+void pat_lauflicht( JsonObject *out ) {
     int fadeSpeed=5;
     int speed=800;
     int8_t fade=1;
@@ -79,7 +81,6 @@ void pat_lauflicht() {
       if (server.argName(i) == "fade")  fade = urldecode(server.arg(i)).toInt();
     }}
 
-    Serial.println ( "starting "+String(NUM_ANIMATIONS)+" lights." );
     for( int i=0; i < NUM_ANIMATIONS; i++) {
         animState[i].speed=i*speed/2+speed;
         animState[i].lastPixel=0;
@@ -102,22 +103,19 @@ void pat_lauflicht() {
             animations.RestartAnimation(param.index);
         }
     });
-
+    out->set("result", String( "starting "+String(NUM_ANIMATIONS)+" lights.") );
 }
 
 const static struct {
   const char *name;
-  void (*func)(void);
+  void (*func)(JsonObject*);
 } effect_functions [] = {
   { "lauflicht", pat_lauflicht },
   { "solid", pat_solidColor },
 };
 
-String listEffects(void) {
-    String elist;
+void listEffects(JsonArray *data) {
     for (uint8_t i = 0; i < (sizeof(effect_functions) / sizeof(effect_functions[0])); i++) {
-        elist += effect_functions[i].name;
-        elist += ',';
+        data->add( effect_functions[i].name) ;
     }
-    return elist;
 }
