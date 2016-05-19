@@ -1,0 +1,11 @@
+{
+  "generator-angular-pro": {
+    "version": "2.1.0-beta.2",
+    "props": {
+      "appName": "esp-light",
+      "target": "both",
+      "ui": "material",
+      "projectName": "esp-light"
+    }
+  }
+}

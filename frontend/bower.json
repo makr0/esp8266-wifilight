@@ -1,0 +1,34 @@
+{
+  "name": "esp-light",
+  "version": "1.0.0",
+  "dependencies": {
+    "angular-animate": "~1.5.5",
+    "angular-sanitize": "~1.5.5",
+    "angular-ui-router": "~0.2.18",
+    "angular": "~1.5.5",
+    "lodash": "~4.12.0",
+    "angular-gettext": "~2.2.1",
+    "ngCordova": "~0.1.26-alpha",
+    "font-awesome": "~4.6.1",
+    "angular-material": "~1.0.7"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.5.5",
+    "jquery": "~2.2.3",
+    "jasmine-jquery": "~2.1.1"
+  },
+  "overrides": {
+    "font-awesome": {
+      "main": [
+        "./scss/font-awesome.scss",
+        "./fonts/*"
+      ]
+    },
+    "angular-material": {
+      "main": [
+        "./angular-material.js",
+        "./angular-material.scss"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+<section id="effects-screen">
+    <div layout="column" layout-fill layout-align="top center">
+      <md-progress-circular md-mode="indeterminate" class="md-bottom-right"
+         ng-hide="!vm.loading"></md-progress-circular>
+    </div>
+  <md-list >
+    <md-subheader class="md-accent">effects</md-subheader>
+    <md-list-item ng-hide="vm.loading" ng-repeat="e in vm.effects" ng-click="vm.setEffect(e)">
+      {{e}}
+    </md-list-item>
+  </md-list>
+  <md-button class="md-fab md-accent md-fab-bottom-right"
+             aria-label="refresh" ng-click="vm.refreshList()"
+             ng-hide="vm.loading">
+    <md-icon md-svg-src="images/icons/refresh.svg"></md-icon>
+  </md-button>
+</section>

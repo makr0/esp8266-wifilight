@@ -1,0 +1,37 @@
+## Web
+node_modules/
+/.tmp/
+/dist/
+.sass-cache
+npm-debug.log
+
+## Karma
+/reports/
+
+## Mobile
+/ionic.project
+/www/
+/plugins/
+/platforms/
+
+## Mac
+.DS_Store
+
+## IntelliJ / WebStorm
+*.iml
+*.iws
+.idea/*
+!.idea/runConfigurations/
+!.idea/codeStyleSettings.xml
+
+## Xcode
+xcuserdata/
+
+## Eclipse
+.classpath
+.project
+.settings/
+
+## Maven
+target/
+log/
