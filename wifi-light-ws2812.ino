@@ -7,10 +7,10 @@
 #include <NeoPixelBus.h>
 #include <NeoPixelAnimator.h>
 #include <ArduinoJson.h>
-#include "wifi_credentials.h"
+#include "credentials.h"
 #include "helpers.h"
 
-#define pixelCount 16
+#define pixelCount 150
 #define NUM_ANIMATIONS 10
 #define LOCAL_HOSTNAME "wifi-light-dev"
 NeoPixelBus<NeoGrbFeature, NeoEsp8266Uart800KbpsMethod> strip(pixelCount, 4);
@@ -30,9 +30,9 @@ void setup ( void ) {
     initializeLedstate();
     strip.Begin();
     effect_active=1;
-    pat_lauflicht( &effect_message );
+    pat_rainbow( &effect_message );
 
-    WiFi.begin ( ssid, password );
+    WiFi.begin ( wifi_ssid, wifi_password );
     Serial.begin ( 115200 );
     Serial.println ( "" );
     Serial.println ( "Application starts" );
@@ -42,7 +42,7 @@ void loop ( void ) {
     if( WiFi.status() == WL_CONNECTED ) {
       Serial.println ( "" );
       Serial.print ( "Connected to " );
-      Serial.println ( ssid );
+      Serial.println ( wifi_ssid );
       Serial.print ( "IP address: " );
       Serial.println ( WiFi.localIP() );
       setHTTPHandlers();

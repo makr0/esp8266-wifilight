@@ -1,6 +1,6 @@
 void OTASetup() {
   ArduinoOTA.setHostname(LOCAL_HOSTNAME);
-  ArduinoOTA.setPassword((const char *)"1234");
+  ArduinoOTA.setPassword(ota_key);
   ArduinoOTA.onStart([]() {
     Serial.println("OTA Update starts");
     effect_active = 0;

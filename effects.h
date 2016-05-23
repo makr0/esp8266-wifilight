@@ -1,18 +1,19 @@
 
 AnimEaseFunction moveEase =
-//      NeoEase::Linear;
+      NeoEase::Linear;
 //      NeoEase::QuadraticInOut;
 //      NeoEase::CubicInOut;
 //      NeoEase::QuarticInOut;
 //      NeoEase::QuinticInOut;
-      NeoEase::SinusoidalOut;
 //      NeoEase::SinusoidalInOut;
 //      NeoEase::ExponentialInOut;
 //      NeoEase::CircularInOut;
 
+#include "pat_rainbow.h"
+
 // parameter: h,s,l
 void pat_solidColor( JsonObject *out ) {
-  int i,speed=500;
+  int i,speed=2000;
   float h,s,l;
 
   if (server.args() > 1 ) {
@@ -51,7 +52,7 @@ void animFN_lauflicht(const AnimationParam& param) {
             strip.SetPixelColor(i, RgbColor::LinearBlend(
                                        strip.GetPixelColor(i),
                                        globalState.color[param.index],
-                                       0.5f)
+                                       0.1f)
             );
         }
     }
@@ -73,7 +74,7 @@ void animFN_lauflicht(const AnimationParam& param) {
 // parameter: speed, fade
 void pat_lauflicht( JsonObject *out ) {
     int fadeSpeed=5;
-    int speed=800;
+    int speed=5000;
     int8_t fade=1;
 
     if (server.args() > 0 ) { for ( uint8_t i = 0; i < server.args(); i++ ) {
@@ -82,7 +83,7 @@ void pat_lauflicht( JsonObject *out ) {
     }}
 
     for( int i=0; i < NUM_ANIMATIONS; i++) {
-        animState[i].speed=i*speed/2+speed;
+        animState[i].speed=(i+1)*speed/2+speed;
         animState[i].lastPixel=0;
         animState[i].moveDir=1;
         animations.StartAnimation(i, animState[i].speed, animFN_lauflicht );
@@ -110,8 +111,9 @@ const static struct {
   const char *name;
   void (*func)(JsonObject*);
 } effect_functions [] = {
-  { "lauflicht", pat_lauflicht },
-  { "solid", pat_solidColor },
+  { "rainbow_shaded", pat_rainbow },
+  { "lauflichter", pat_lauflicht },
+  { "one_color", pat_solidColor },
 };
 
 void listEffects(JsonArray *data) {
