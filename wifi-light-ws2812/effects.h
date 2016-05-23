@@ -82,7 +82,7 @@ void pat_lauflicht( JsonObject *out ) {
       if (server.argName(i) == "fade")  fade = urldecode(server.arg(i)).toInt();
     }}
 
-    for( int i=0; i < NUM_ANIMATIONS; i++) {
+    for( int i=0; i < NUM_ANIMATIONS/2; i++) {
         animState[i].speed=(i+1)*speed/2+speed;
         animState[i].lastPixel=0;
         animState[i].moveDir=1;
@@ -104,7 +104,7 @@ void pat_lauflicht( JsonObject *out ) {
             animations.RestartAnimation(param.index);
         }
     });
-    out->set("result", String( "starting "+String(NUM_ANIMATIONS)+" lights.") );
+    out->set("result", String( "starting "+String(NUM_ANIMATIONS/2)+" lights.") );
 }
 
 const static struct {

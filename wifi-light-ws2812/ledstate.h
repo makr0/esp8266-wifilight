@@ -11,7 +11,7 @@ animState_t animState[NUM_ANIMATIONS];
 
 void initializeLedstate() {
 	for( uint8_t i = 0; i<NUM_ANIMATIONS; i++) {
-  		globalState.color[i] = HslColor(1.0f * i/NUM_ANIMATIONS  ,1,0.5);
+  		globalState.color[i] = HslColor(1.0f * i/NUM_ANIMATIONS  ,1,0.01);
 	}
-    globalState.color[0] = HslColor(0,0,0.5);
+    globalState.color[0] = HslColor(0,0,0.01);
 }
