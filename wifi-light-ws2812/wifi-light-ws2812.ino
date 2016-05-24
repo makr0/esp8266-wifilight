@@ -1,3 +1,4 @@
+#include <FS.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 #include <WiFiClient.h>
@@ -21,32 +22,33 @@
 NeoPixelBus<NeoGrbFeature, NeoEsp8266Uart800KbpsMethod> strip(pixelCount, 4);
 NeoPixelAnimator animations(NUM_ANIMATIONS+1);
 ESP8266WebServer server ( 80 );
-StaticJsonBuffer<10000> jsonBuffer;
 Adafruit_SSD1306 oled_display(0);
 
-int effect_active = 0;
-int wifi_setup_done = 0;
+bool effect_active = false;
+bool wifi_setup_done = false;
+
 #include "oled_display.h"
 #include "ota.h"
 #include "ledstate.h"
 #include "effects.h"
 #include "httphandlers.h"
+#include "configFS.h"
 
 const long statusled_blinkinterval_wifi = 75;
 int statusledState = HIGH; // means 'OFF'
 unsigned long previousMillis = 0;
 void setup ( void ) {
     pinMode(LED_BUILTIN, OUTPUT);
+    DynamicJsonBuffer jsonBuffer;
     JsonObject& effect_message = jsonBuffer.createObject();
     initializeOLED_display();
     initializeLedstate();
     strip.Begin();
-    effect_active=1;
+    effect_active=true;
     pat_lauflicht( &effect_message );
 
     WiFi.begin ( ssid, password );
     Serial.begin ( 115200 );
-    Serial.println ( "" );
     Serial.println ( "Application starts" );
 }
 void loop ( void ) {
@@ -61,9 +63,10 @@ void loop ( void ) {
       server.begin();
       oled_display.println ( "HTTP server started" );
       OTASetup();
-      wifi_setup_done = 1;
+      wifi_setup_done = true;
       oled_display.display();
       digitalWrite(LED_BUILTIN, HIGH);
+      shouldSaveConfig = true;
     } else {
       if(currentMillis - previousMillis >= statusled_blinkinterval_wifi) {
         previousMillis = currentMillis;
@@ -74,9 +77,11 @@ void loop ( void ) {
   } else {
     server.handleClient();
     ArduinoOTA.handle();
+    configFS_handle();
   }
   if( effect_active ) {
     animations.UpdateAnimations();
     strip.Show();
   }
+
 }

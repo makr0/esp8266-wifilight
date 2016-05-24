@@ -7,7 +7,6 @@ void OTASetup() {
     oled_display.drawRect(0,SSD1306_LCDHEIGHT/2,SSD1306_LCDWIDTH-1,5,WHITE);
 
     oled_display.display();
-    effect_active = false;
   });
   ArduinoOTA.onEnd([]() {
     oled_display.println("OTA Update done");oled_display.display();

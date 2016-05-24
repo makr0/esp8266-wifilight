@@ -5,6 +5,7 @@ void sendJSON_Response( JsonObject *root, int status=200 ) {
 }
 void handleSetEffect() {
   String effect;
+  DynamicJsonBuffer jsonBuffer;
   JsonObject& effect_message = jsonBuffer.createObject();
   effect_active = 0;
   for( int i=0; i <= NUM_ANIMATIONS; i++) {
@@ -32,12 +33,14 @@ void handleSetEffect() {
   sendJSON_Response( &root );
 }
 void handleListEffects() {
+  DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.createObject();
   JsonArray& data = root.createNestedArray("effects");
   listEffects( &data );
   sendJSON_Response( &root);
 }
 void handleNotFound() {
+  DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.createObject();
   root["error"] = "File Not Found";
   root["uri"]   = server.uri();
@@ -49,6 +52,7 @@ void handleNotFound() {
   sendJSON_Response(&root, 404);
 }
 void handleStatus() {
+  DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.createObject();
   root["freeSketchSpace"]=ESP.getFreeSketchSpace();
   JsonArray& colors = root.createNestedArray("colors");
@@ -61,9 +65,31 @@ void handleStatus() {
   }
   sendJSON_Response(&root);
 }
+void handleListFiles() {
+  DynamicJsonBuffer jsonBuffer;
+  FSInfo fs_info;
+  SPIFFS.info(fs_info);
+  Dir dir = SPIFFS.openDir("/");
+  JsonObject& json = jsonBuffer.createObject();
+  JsonObject& fsInfo = json.createNestedObject("info");
+  fsInfo["size"] = fs_info.totalBytes;
+  fsInfo["used"] = fs_info.usedBytes;
+  JsonArray& files = json.createNestedArray("files");
+
+  while (dir.next()) {
+    File f = dir.openFile("r");
+    JsonObject& fileInfo = jsonBuffer.createObject();
+    fileInfo["name"]=dir.fileName();
+    fileInfo["size"]=f.size();
+    files.add( fileInfo );
+  }
+  sendJSON_Response(&json);
+}
+
 void setHTTPHandlers() {
   server.on ( "/effect", handleSetEffect );
   server.on ( "/effects", handleListEffects );
   server.on ( "/status", handleStatus );
+  server.on ( "/files", handleListFiles );
   server.onNotFound ( handleNotFound );
 }

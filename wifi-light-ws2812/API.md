@@ -21,6 +21,23 @@ GET /effects
 - list of available effects
 - TODO: parameters for each effect
 
+## list files
+GET /files
+Response
+{
+  "info": {
+    "size": 2949250,
+    "used": 753
+  },
+  "files": [
+    {
+      "name": "/config.json",
+      "size": 51
+    }
+  ]
+}
+
+
 # TODO
 
 ## status
