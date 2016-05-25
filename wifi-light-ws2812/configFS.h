@@ -10,6 +10,9 @@ void configFS_mount() {
         Serial.println("failed to mount FS");
     }
 }
+
+// grab some values from gobal variables
+// and stuff them into config.json. somehow.
 void configFS_save() {
     configFS_mount();
     Serial.println("saving config");
@@ -26,9 +29,11 @@ void configFS_save() {
     json.printTo(Serial);
     json.printTo(configFile);
     configFile.close();
-    shouldSaveConfig = 0;
 }
 
 void configFS_handle() {
-  if( shouldSaveConfig ) configFS_save();
+  if( shouldSaveConfig ) {
+    configFS_save();
+    shouldSaveConfig = 0;
+  }
 }

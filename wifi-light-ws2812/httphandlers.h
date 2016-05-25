@@ -85,11 +85,24 @@ void handleListFiles() {
   }
   sendJSON_Response(&json);
 }
+bool handleFileRead( String path) {
+  if (SPIFFS.exists( path )) {
+    File file = SPIFFS.open(path, "r");
+    size_t sent = server.streamFile(file, "text/plain");
+    return true;
+  } else {
+    return false;
+  }
+}
 
 void setHTTPHandlers() {
   server.on ( "/effect", handleSetEffect );
   server.on ( "/effects", handleListEffects );
   server.on ( "/status", handleStatus );
   server.on ( "/files", handleListFiles );
-  server.onNotFound ( handleNotFound );
+  // everything else is interpreted as filename
+  server.onNotFound([](){
+    if(!handleFileRead(server.uri()))
+      handleNotFound();
+  });
 }

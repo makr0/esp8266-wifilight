@@ -37,6 +37,37 @@ Response
   ]
 }
 
+## list WIFI configs
+
+GET /wifi
+Response:
+[
+  { "id"   : 1,
+    "ssid" : "ssid1",
+    "pass" : "pass1" },
+
+  { "id"   : 2,
+    "ssid" : "ssid2",
+    "pass" : "pass2" },
+]
+
+## add WIFI config
+POST /wifi/add
+Request data:
+{
+  "ssid":"the-ssid",
+  "pass":"the-password"
+}
+
+## delete WIFI config
+GET /wifi/del/:id
+deletes the wifi config at :id
+
+
+GET /:filename
+Response:
+content of :filename
+
 
 # TODO
 
@@ -45,9 +76,10 @@ GET /status
 
 - currently running effect
 - current colors (done)
-- connection status
 - uptime
 - hardware config
+  - number of LEDs
+  - number of buttons
 
 ## change colors
 POST /colors

@@ -27,12 +27,12 @@ Adafruit_SSD1306 oled_display(0);
 bool effect_active = false;
 bool wifi_setup_done = false;
 
+#include "configFS.h"
 #include "oled_display.h"
 #include "ota.h"
 #include "ledstate.h"
 #include "effects.h"
 #include "httphandlers.h"
-#include "configFS.h"
 
 const long statusled_blinkinterval_wifi = 75;
 int statusledState = HIGH; // means 'OFF'
