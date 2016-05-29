@@ -14,10 +14,11 @@
 #include "credentials.h"
 #include "helpers.h"
 
-#define pixelCount 16
+#define pixelCount 150
 #define NUM_ANIMATIONS 10
 #define LOCAL_HOSTNAME "wifi-light-dev"
 #define OLED_address  0x3c
+#define SERIAL_SPEED 74880
 
 NeoPixelBus<NeoGrbFeature, NeoEsp8266Uart800KbpsMethod> strip(pixelCount, 4);
 NeoPixelAnimator animations(NUM_ANIMATIONS+1);
@@ -48,7 +49,7 @@ void setup ( void ) {
     pat_lauflicht( &effect_message );
 
     WiFi.begin ( ssid, password );
-    Serial.begin ( 115200 );
+    Serial.begin ( SERIAL_SPEED );
     Serial.println ( "Application starts" );
 }
 void loop ( void ) {
