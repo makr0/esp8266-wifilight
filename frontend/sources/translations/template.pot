@@ -1,0 +1,50 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+
+#: modules/screens/settings/settings.html:10
+msgid "en_US"
+msgstr ""
+
+msgid "de_DE"
+msgstr ""
+
+#: modules/screens/settings/settings.html:6
+msgid "{{shell.currentLocale.id}}"
+msgstr ""
+
+#: app.ts.js:1032
+#: modules/shell/shell.html:16
+msgid "About"
+msgstr ""
+
+#: app.ts.js:990
+#: modules/screens/about/about.html:5
+#: modules/shell/shell.html:5
+msgid "APP_NAME"
+msgstr ""
+
+#: app.ts.js:1026
+#: modules/shell/shell.html:13
+msgid "Effects"
+msgstr ""
+
+#: app.ts.js:1020
+#: modules/shell/shell.html:10
+msgid "Home"
+msgstr ""
+
+#: modules/screens/settings/settings.html:4
+msgid "Language"
+msgstr ""
+
+#: app.ts.js:1038
+#: modules/shell/shell.html:19
+msgid "Settings"
+msgstr ""
+
+#: modules/screens/about/about.html:7
+msgid "Version"
+msgstr ""

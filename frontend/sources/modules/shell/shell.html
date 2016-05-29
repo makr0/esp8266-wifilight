@@ -1,4 +1,4 @@
-<section id="shell" class="shell" layout="row" flex>
+<section id="shell" flex class="shell" layout="row"  layout-align="start stretch">
 
     <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="leftNav" md-is-locked-open="$mdMedia('gt-md')">
       <md-toolbar class="md-theme-indigo">
@@ -15,34 +15,31 @@
           <md-list-item ng-class="{ 'md-primary': shell.stateContains('app.about') }" ui-sref="app.about">
             <span translate>About</span>
           </md-list-item>
-          <md-list-item>
-            <span translate>Language</span>
-            <md-menu>
-              <md-button md-menu-origin ng-click="$mdOpenMenu()">{{shell.currentLocale.id}}</md-button>
-              <md-menu-content width="2">
-                <md-menu-item ng-repeat="language in ::shell.languages">
-                  <md-button ng-click="setLanguage(language)">{{language}}</md-button>
-                </md-menu-item>
-              </md-menu-content>
-            </md-menu>
+          <md-list-item ng-class="{ 'md-primary': shell.stateContains('app.settings') }" ui-sref="app.settings">
+            <span translate>Settings</span>
           </md-list-item>
         </md-list>
       </md-content>
     </md-sidenav>
 
-    <md-content flex layout-padding>
-      <md-toolbar>
-        <div class="md-toolbar-tools">
-          <md-button class="md-icon-button" aria-label="Menu" ng-click="toggleLeftNav()">
-            <md-icon md-svg-icon="images/icons/menu.svg"></md-icon>
-          </md-button>
-          <span flex></span>
-          <md-button class="md-icon-button" aria-label="More" ng-click="toggleRightNav()">
-            <md-icon md-svg-icon="images/icons/more_vert.svg"></md-icon>
-          </md-button>
-        </div>
-      </md-toolbar>
-    </md-content>
+    <section layout="column" flex layout-align="start stretch">
+      <md-content>
+        <md-toolbar>
+          <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Menu" ng-click="toggleLeftNav()">
+              <md-icon md-svg-icon="images/icons/menu.svg"></md-icon>
+            </md-button>
+            <span flex>{{viewTitle}}</span>
+            <md-button class="md-icon-button" aria-label="More" ng-click="toggleRightNav()">
+              <md-icon md-svg-icon="images/icons/more_vert.svg"></md-icon>
+            </md-button>
+          </div>
+        </md-toolbar>
+      </md-content>
+      <!-- View content -->
+      <div ui-view layout="row" flex layout-align="start stretch"></div>
+    </section>
+
 
     <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="rightNav">
       <md-toolbar class="md-theme-light">
@@ -67,8 +64,4 @@
     </md-sidenav>
   </section>
 </div>
-
-  <!-- View content -->
-  <div ui-view></div>
-
 </section>

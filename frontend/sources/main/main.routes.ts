@@ -34,6 +34,12 @@ module app {
         templateUrl: 'modules/screens/about/about.html',
         controller: 'aboutController as vm',
         data: {title: gettext('About')}
+      })
+      .state('app.settings', {
+        url: '/settings',
+        templateUrl: 'modules/screens/settings/settings.html',
+        controller: 'settingsController as vm',
+        data: {title: gettext('Settings')}
       });
 
   }

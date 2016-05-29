@@ -1,9 +1,9 @@
-<section id="effects-screen">
-    <div layout="column" layout-fill layout-align="top center">
-      <md-progress-circular md-mode="indeterminate" class="md-bottom-right"
-         ng-hide="!vm.loading"></md-progress-circular>
-    </div>
-  <md-list >
+<section id="effects-screen" flex layout="column">
+  <div layout-fill layout-align="top center">
+    <md-progress-circular md-mode="indeterminate" class="md-bottom-right"
+       ng-hide="!vm.loading"></md-progress-circular>
+  </div>
+  <md-list>
     <md-subheader class="md-accent">effects</md-subheader>
     <md-list-item ng-hide="vm.loading" ng-repeat="e in vm.effects" ng-click="vm.setEffect(e)">
       {{e}}

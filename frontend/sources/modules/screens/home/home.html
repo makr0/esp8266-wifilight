@@ -1,19 +1,17 @@
-<section id="home-screen" class="home-screen container-fluid">
-  <div class="jumbotron text-center">
-    <md-card>
-      <md-card-title>
-        <md-card-title-text>
-          <p>
-            <em class="quote">{{vm.quote}}</em>
-          </p>
-        </md-card-title-text>
-      </md-card-title>
-      <md-card-actions layout="row" layout-align="end center">
-        <md-progress-circular md-mode="indeterminate"
-         ng-hide="!vm.isLoading"></md-progress-circular>
-      </md-card-actions>
-    </md-card>
-  </div>
+<section id="home-screen"  flex layout="column">
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <p>
+          <em class="quote">{{vm.quote}}</em>
+        </p>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-actions layout="row" layout-align="end center">
+      <md-progress-circular md-mode="indeterminate"
+       ng-hide="!vm.isLoading"></md-progress-circular>
+    </md-card-actions>
+  </md-card>
   <md-button class="md-fab md-accent md-fab-bottom-right" aria-label="refresh" ng-click="vm.loadQuote()"
      ng-hide="vm.isLoading">
     <md-icon md-svg-src="images/icons/refresh.svg"></md-icon>

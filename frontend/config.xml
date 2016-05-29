@@ -67,7 +67,7 @@
     <preference name="StatusBarStyle" value="default" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="SplashScreen" value="screen" />
-    <preference name="SplashScreenDelay" value="2000" />
+    <preference name="SplashScreenDelay" value="10000" />
     <preference name="ShowSplashScreenSpinner" value="false" />
     <engine name="ios" spec="~4.0.1" />
     <engine name="android" spec="~5.1.1" />

@@ -18,6 +18,7 @@ module app {
                 logger: LoggerService,
                 $mdSidenav: any,
                 restService: RestService,
+                settingsService: SettingsService,
                 esplightService: EsplightService ) {
 
     /*
@@ -27,35 +28,7 @@ module app {
     let vm = $rootScope;
 
     vm.pageTitle = '';
-
-    /**
-     * Utility method to set the language in the tools requiring it.
-     * The current language is saved to the local storage.
-     * If no parameter is specified, the language is loaded from local storage (if possible).
-     * @param {string=} language The IETF language tag.
-     */
-    vm.setLanguage = function(language?: string) {
-      language = language || $window.localStorage.getItem('language');
-      let isSupportedLanguage = _.includes(config.supportedLanguages, language);
-
-      // If no exact match is found, search without the region
-      if (!isSupportedLanguage && language) {
-        let languagePart = language.split('-')[0];
-        language = _.find(config.supportedLanguages,
-          (supportedLanguage: string) => _.startsWith(supportedLanguage, languagePart));
-        isSupportedLanguage = !!language;
-      }
-
-      // Fallback if language is not supported
-      if (!isSupportedLanguage) {
-        language = 'en-US';
-      }
-
-      // Configure translation with gettext
-      gettextCatalog.setCurrentLanguage(language);
-      $locale.id = language;
-      $window.localStorage.setItem('language', language);
-    };
+    vm.viewTitle = 'initial';
 
     vm.toggleLeftNav = function() {
       $mdSidenav('leftNav').toggle();
@@ -67,7 +40,7 @@ module app {
       $mdSidenav('leftNav').close();
       $mdSidenav('rightNav').close();
     };
-    vm.lightServer = 'http://192.168.4.1';
+    vm.lightServer = 'http://192.168.76.109';
 
     vm.saveLightUrl = function() {
       console.log( vm.lightServer);
@@ -103,7 +76,7 @@ module app {
       // Enable debug mode for translations
       gettextCatalog.debug = config.environment.debug;
 
-      vm.setLanguage();
+      settingsService.setLanguage();
 
       // Set REST server configuration
       restService.setServer(config.environment.server);
@@ -117,7 +90,7 @@ module app {
         if (splashScreen) {
           $timeout(() => {
             splashScreen.hide();
-          }, 1000);
+          }, 100);
         }
 
         // Detect and set default language
@@ -147,7 +120,8 @@ module app {
       vm.pageTitle = gettextCatalog.getString('APP_NAME');
 
       if (stateTitle) {
-        vm.pageTitle += ' | ' + gettextCatalog.getString(stateTitle);
+        vm.viewTitle = gettextCatalog.getString(stateTitle);
+        vm.pageTitle += ' | ' + vm.viewTitle;
       }
     }
 

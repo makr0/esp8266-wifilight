@@ -50,8 +50,8 @@ module app {
 
     // Supported languages
     supportedLanguages: [
-      'en-US',
-      'de-DE'
+      'en_US',
+      'de_DE'
     ]
 
   };
