@@ -33,8 +33,8 @@ void pat_rainbow( JsonObject *out ) {
 
    if (server.args() > 1 ) {
     for ( uint8_t i = 0; i < server.args(); i++ ) {
-      if (server.argName(i) == "speed") speed = urldecode(server.arg(i)).toInt();
-      if (server.argName(i) == "loecher") loecher = urldecode(server.arg(i)).toInt();
+      if (server.argName(i) == "speed") speed = server.arg(i).toInt();
+      if (server.argName(i) == "loecher") loecher = server.arg(i).toInt();
     }
   }
   animState[0].moveDir = loecher;

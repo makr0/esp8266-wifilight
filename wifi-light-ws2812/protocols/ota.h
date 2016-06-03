@@ -8,18 +8,24 @@ void OTASetup() {
 
     oled_display.display();
     effect_active = false;
+    debug_println("OTA Update in progress...");
   });
   ArduinoOTA.onEnd([]() {
     OLED_clear();
     oled_display.println("OTA Update done");
     oled_display.println("rebooting...");
     oled_display.display();
+    debug_println("rebooting...");
   });
   ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
-    int percent = (progress / (total / (SSD1306_LCDWIDTH-2)) );
-    if( percent % 10 == 0) {
-      oled_display.fillRect(1,SSD1306_LCDHEIGHT/2+1,percent,3,WHITE);
+
+    int percent = (int) ( (float)progress / (float)total * 100.0f);
+    int progress_bar = (progress / (total / (SSD1306_LCDWIDTH-2)) );
+    if( !(percent%10) ) {
+      oled_display.fillRect(1,SSD1306_LCDHEIGHT/2+1,progress_bar,3,WHITE);
       oled_display.display();
+      debug_print(percent);
+      debug_print(" ");
     }
   });
   ArduinoOTA.onError([](ota_error_t error) {

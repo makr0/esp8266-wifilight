@@ -1,8 +1,3 @@
-void sendJSON_Response( JsonObject *root, int status=200 ) {
-  String message;
-  root->printTo( message );
-  server.send ( status, "application/json", message );
-}
 void handleSetEffect() {
   String effect;
   DynamicJsonBuffer jsonBuffer;
@@ -14,7 +9,7 @@ void handleSetEffect() {
   if (server.args() > 0 ) {
     for ( uint8_t i = 0; i < server.args(); i++ ) {
       if (server.argName(i) == "e") {
-        effect = urldecode(server.arg(i));
+        effect = server.arg(i);
         for (i = 0; i < (sizeof(effect_functions) / sizeof(effect_functions[0])); i++) {
           if (!strcmp(effect_functions[i].name, effect.c_str()) && effect_functions[i].func) {
             effect_functions[i].func( &effect_message );
@@ -49,6 +44,7 @@ void handleNotFound() {
   for ( uint8_t i = 0; i < server.args(); i++ ) {
       arguments.set( server.argName ( i ) ,server.arg ( i ) );
   }
+  root.printTo(Serial);
   sendJSON_Response(&root, 404);
 }
 void handleStatus() {
@@ -100,9 +96,16 @@ void setHTTPHandlers() {
   server.on ( "/effects", handleListEffects );
   server.on ( "/status", handleStatus );
   server.on ( "/files", handleListFiles );
+  server.on ( "/description.xml", HTTP_GET, [](){
+    debug_println("sending description.xml");
+    SSDP.schema(server.client());
+  });
   // everything else is interpreted as filename
   server.onNotFound([](){
-    if(!handleFileRead(server.uri()))
-      handleNotFound();
+    if( !handleHueProtocol() ) {
+      if(!handleFileRead(server.uri())) {
+        handleNotFound();
+      }
+    }
   });
 }

@@ -17,32 +17,54 @@ unsigned char h2int(char c)
     return(0);
 }
 
-String urldecode(String input) // (based on https://code.google.com/p/avr-netino/)
-{
-	 char c;
-	 String ret = "";
-
-	 for(byte t=0;t<input.length();t++)
-	 {
-		 c = input[t];
-		 if (c == '+') c = ' ';
-         if (c == '%') {
-
-
-         t++;
-         c = input[t];
-         t++;
-         c = (h2int(c) << 4) | h2int(input[t]);
-		 }
-
-		 ret.concat(c);
-	 }
-	 return ret;
-
+// Function to return a substring defined by a delimiter at an index
+// From http://forum.arduino.cc/index.php?topic=41389.msg301116#msg301116
+char* subStr(const char* str, char *delim, int index) {
+  char *act, *sub, *ptr;
+  static char copy[128]; // Length defines the maximum length of the c_string we can process
+  int i;
+  strcpy(copy, str); // Since strtok consumes the first arg, make a copy
+  for (i = 1, act = copy; i <= index; i++, act = NULL) {
+    //Serial.print(".");
+    sub = strtok_r(act, delim, &ptr);
+    if (sub == NULL) break;
+  }
+  return sub;
 }
 
+void sendJSON_Response( JsonObject *root, int status=200 ) {
+  String message;
+  root->printTo( message );
+  server.send ( status, "application/json", message );
+  #ifdef DEBUG
+    root->prettyPrintTo( Serial );
+  #endif
+}
 
+void sendJSON_ResponseArray( JsonArray *root, int status=200 ) {
+  String message;
+  root->printTo( message );
+  server.send ( status, "application/json", message );
+  #ifdef DEBUG
+    //root->prettyPrintTo( Serial );
+  #endif
+}
 
+String StringIPaddress(IPAddress myaddr)
+{
+  String LocalIP = "";
+  for (int i = 0; i < 4; i++)
+  {
+    LocalIP += String(myaddr[i]);
+    if (i < 3) LocalIP += ".";
+  }
+  return LocalIP;
+}
+
+float map_range(float x, float in_min, float in_max, float out_min, float out_max)
+{
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
 
 
 #endif

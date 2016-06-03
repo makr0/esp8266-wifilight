@@ -5,9 +5,9 @@ void configFS_mount() {
     if(fs_mounted) return;
     if (SPIFFS.begin()) {
         fs_mounted = true;
-        Serial.println("mounted file system");
+        debug_println(F("mounted file system"));
     } else {
-        Serial.println("failed to mount FS");
+        debug_println(F("failed to mount FS"));
     }
 }
 
@@ -15,7 +15,7 @@ void configFS_mount() {
 // and stuff them into config.json. somehow.
 void configFS_save() {
     configFS_mount();
-    Serial.println("saving config");
+    debug_println(F("saving config"));
     DynamicJsonBuffer jsonBuffer;
     JsonObject& json = jsonBuffer.createObject();
     json["ssid"] = ssid;
@@ -23,12 +23,12 @@ void configFS_save() {
 
     File configFile = SPIFFS.open("/config.json", "w");
     if (!configFile) {
-      Serial.println("failed to open config file for writing");
+      debug_println(F("failed to open config file for writing"));
     }
 
-    json.printTo(Serial);
     json.printTo(configFile);
     configFile.close();
+    debug_println(F("config saved"));
 }
 
 void configFS_handle() {

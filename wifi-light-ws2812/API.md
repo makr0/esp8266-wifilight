@@ -77,6 +77,9 @@ GET /status
 - currently running effect
 - current colors (done)
 - uptime
+- battery status
+  - voltage
+  - percentage (if fuel gauge connected)
 - hardware config
   - number of LEDs
   - number of buttons
