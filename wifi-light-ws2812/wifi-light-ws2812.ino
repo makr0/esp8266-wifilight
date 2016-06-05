@@ -40,7 +40,7 @@ bool wifi_setup_done = false;
 #include "helpers.h"
 #include "color_conversions.h"
 #include "drivers/oled_display.h"
-#include "configFS.h"
+#include "configStore.h"
 #include "ledstate.h"
 #include "effects.h"
 #include "protocols/ota.h"
@@ -48,9 +48,12 @@ bool wifi_setup_done = false;
 #include "protocols/philips_hue.h"
 #include "httphandlers.h"
 
+configStore config();
+
 const long statusled_blinkinterval_wifi = 75;
 int statusledState = HIGH; // means 'OFF'
 unsigned long previousMillis = 0;
+
 void setup ( void ) {
     pinMode(LED_BUILTIN, OUTPUT);
     DynamicJsonBuffer jsonBuffer;
@@ -87,7 +90,7 @@ void loop ( void ) {
       wifi_setup_done = true;
       oled_display.display();
       digitalWrite(LED_BUILTIN, HIGH);
-      shouldSaveConfig = true;
+      config.save();
     } else {
       if(currentMillis - previousMillis >= statusled_blinkinterval_wifi) {
         previousMillis = currentMillis;
@@ -98,7 +101,7 @@ void loop ( void ) {
   } else {
     server.handleClient();
     ArduinoOTA.handle();
-    configFS_handle();
+    config.handle();
   }
   if( effect_active ) {
     animations.UpdateAnimations();
