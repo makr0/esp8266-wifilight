@@ -1,6 +1,6 @@
 void OTASetup() {
   ArduinoOTA.setHostname(LOCAL_HOSTNAME);
-  ArduinoOTA.setPassword(ota_key);
+  ArduinoOTA.setPassword( config.getValue("ota_key") );
   ArduinoOTA.onStart([]() {
     OLED_clear();
     oled_display.println("OTA Update");

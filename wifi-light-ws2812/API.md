@@ -1,5 +1,11 @@
 # API
 
+## colors
+GET /setcolor?index=<index>&h=<hue>&s=<saturation>&l=<lightness>
+
+set color at index to the given H,S,L value
+index ranges from 0 to NUM_ANIMATIONS. The different colors are used by the effects in various ways
+
 ## effects
 GET /effect?e=<effectname>
 
@@ -10,7 +16,9 @@ Response (error)
 { "error": "effect not found"}
 
 ### solid color
-GET /effect?e=solid&h=0.9&s=1&l=0.1&speed=500
+GET /effect?e=solid&speed=500
+
+speed: LEDs are not set all at once. The Color flows from Start to End.
 
 ### lauflicht
 GET /effect?e=lauflicht&speed=1000&fade=1

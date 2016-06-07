@@ -1,3 +1,26 @@
+void handleSetColor() {
+  float h,s,l;
+  int index;
+
+  h=0;s=0;l=0;
+  if (server.args() > 1 ) {
+    for ( uint8_t i = 0; i < server.args(); i++ ) {
+      if (server.argName(i) == "index") index = server.arg(i).toInt();
+      if (server.argName(i) == "h") h = server.arg(i).toFloat();
+      if (server.argName(i) == "s") s = server.arg(i).toFloat();
+      if (server.argName(i) == "l") l = server.arg(i).toFloat();
+    }
+  }
+  globalState.color[index] = HslColor(h,s,l);
+
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& root = jsonBuffer.createObject();
+  root["h"].set( globalState.color[index].H,4 );
+  root["s"].set( globalState.color[index].S,4 );
+  root["l"].set( globalState.color[index].L,4 );
+  sendJSON_Response(&root);
+}
+
 void handleSetEffect() {
   String effect;
   DynamicJsonBuffer jsonBuffer;
@@ -96,6 +119,8 @@ void setHTTPHandlers() {
   server.on ( "/effects", handleListEffects );
   server.on ( "/status", handleStatus );
   server.on ( "/files", handleListFiles );
+  server.on ( "/colors", handleSetColor );
+
   server.on ( "/description.xml", HTTP_GET, [](){
     debug_println("sending description.xml");
     SSDP.schema(server.client());

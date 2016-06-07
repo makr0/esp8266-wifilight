@@ -15,10 +15,9 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include "credentials.h"
 
 
-#define pixelCount 150
+#define pixelCount 16
 #define NUM_ANIMATIONS 10
 #define LOCAL_HOSTNAME "wifi-light-dev"
 #define OLED_address  0x3c
@@ -38,9 +37,11 @@ bool effect_active = false;
 bool wifi_setup_done = false;
 
 #include "helpers.h"
+#include "configStore.h"
+configStore config;
+
 #include "color_conversions.h"
 #include "drivers/oled_display.h"
-#include "configStore.h"
 #include "ledstate.h"
 #include "effects.h"
 #include "protocols/ota.h"
@@ -48,7 +49,6 @@ bool wifi_setup_done = false;
 #include "protocols/philips_hue.h"
 #include "httphandlers.h"
 
-configStore config();
 
 const long statusled_blinkinterval_wifi = 75;
 int statusledState = HIGH; // means 'OFF'
@@ -64,7 +64,7 @@ void setup ( void ) {
     effect_active=true;
     pat_solidColor( &effect_message );
 
-    WiFi.begin ( ssid, password );
+    WiFi.begin ( config.getValue("ssid"), config.getValue("password") );
     Serial.begin ( SERIAL_SPEED );
     debug_println ( "Application starts" );
 }
@@ -79,7 +79,7 @@ void loop ( void ) {
       debug_print ( "IP: " );
       debug_println ( WiFi.localIP() );
       OLED_clear();
-      oled_display.println ( ssid );
+      oled_display.println ( config.getValue("ssid") );
       oled_display.print ( "IP: " );
       oled_display.println ( WiFi.localIP() );
       setHTTPHandlers();
@@ -90,7 +90,6 @@ void loop ( void ) {
       wifi_setup_done = true;
       oled_display.display();
       digitalWrite(LED_BUILTIN, HIGH);
-      config.save();
     } else {
       if(currentMillis - previousMillis >= statusled_blinkinterval_wifi) {
         previousMillis = currentMillis;
