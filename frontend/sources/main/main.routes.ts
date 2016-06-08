@@ -14,31 +14,60 @@ module app {
 
     $stateProvider
       .state('app', {
-        templateUrl: 'modules/shell/shell.html',
-        controller: 'shellController as shell'
+        views: {
+          'shell': {
+            templateUrl: 'modules/shell/shell.html',
+            controller: 'shellController as shell'
+          }
+        }
       })
       .state('app.home', {
         url: '/',
-        templateUrl: 'modules/screens/home/home.html',
-        controller: 'homeController as vm',
+        views: {
+          'main': {
+            templateUrl: 'modules/screens/home/home.html',
+            controller: 'homeController as vm',
+          },
+        },
         data: {title: gettext('Home')}
       })
       .state('app.effects', {
         url: '/effects',
-        templateUrl: 'modules/screens/effects/effects.html',
-        controller: 'effectsController as vm',
+        views: {
+          'main': {
+            templateUrl: 'modules/screens/effects/effects.html',
+            controller: 'effectsController as vm'
+          }
+        },
         data: {title: gettext('Effects')}
       })
       .state('app.about', {
         url: '/about',
-        templateUrl: 'modules/screens/about/about.html',
-        controller: 'aboutController as vm',
+        views: {
+          'main': {
+            templateUrl: 'modules/screens/about/about.html',
+            controller: 'aboutController as vm'
+          },
+          'side': {
+            templateUrl: 'modules/screens/home/home.html',
+            controller: 'homeController as vm',
+          }
+        },
         data: {title: gettext('About')}
       })
       .state('app.settings', {
         url: '/settings',
-        templateUrl: 'modules/screens/settings/settings.html',
-        controller: 'settingsController as vm',
+        views: {
+          'main': {
+
+            templateUrl: 'modules/screens/settings/settings.html',
+            controller: 'settingsController as vm'
+          },
+          'side': {
+            templateUrl: 'modules/screens/home/home.html',
+            controller: 'homeController as vm',
+          }
+        },
         data: {title: gettext('Settings')}
       });
 

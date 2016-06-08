@@ -37,30 +37,12 @@
         </md-toolbar>
       </md-content>
       <!-- View content -->
-      <div ui-view layout="row" flex layout-align="start stretch"></div>
+      <div ui-view="main" layout="row" flex layout-align="start stretch"></div>
     </section>
 
 
     <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="rightNav">
-      <md-toolbar class="md-theme-light">
-        <h1 class="md-toolbar-tools">Settings</h1>
-      </md-toolbar>
-      <md-content layout-padding>
-        <form>
-          <md-input-container>
-            <label for="url">lightServer</label>
-            <input type="text" id="lightServer"
-              ng-model="$parent.lightServer" md-autofocus>
-          </md-input-container>
-        </form>
-        <md-button ng-click="saveLightUrl()" class="md-primary">
-          save
-        </md-button>
-
-        <md-button ng-click="closeNavs()" class="md-primary">
-          close settings
-        </md-button>
-      </md-content>
+      <div ui-view="side"></div>
     </md-sidenav>
   </section>
 </div>
