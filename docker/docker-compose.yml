@@ -1,0 +1,5 @@
+androidbox:
+  build: androidsdk
+  hostname: build-wifilight
+  volumes:
+    - ../frontend:/data
