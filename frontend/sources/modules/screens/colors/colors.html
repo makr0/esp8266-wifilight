@@ -1,0 +1,44 @@
+<section id="colors-screen"  flex layout="column">
+  <md-content style="padding: 20px">
+    <div layout>
+      <div flex layout layout-align="center center">
+        <span>H</span>
+      </div>
+      <div flex layout layout-align="center center">
+        <span>{{vm.color.H}}</span>
+      </div>
+    </div>
+    <div layout>
+      <md-slider flex class="md-primary"
+        ng-model="vm.color.H" step="0.01" min="0" max="1">
+      </md-slider>
+    </div>
+
+    <div layout>
+      <div flex layout layout-align="center center">
+        <span>S</span>
+      </div>
+      <div flex layout layout-align="center center">
+        <span>{{vm.color.S}}</span>
+      </div>
+    </div>
+    <div layout>
+      <md-slider flex class="md-primary"
+        ng-model="vm.color.S" step="0.01" min="0" max="1">
+      </md-slider>
+    </div>
+    <div layout>
+      <div flex layout layout-align="center center">
+        <span>L</span>
+      </div>
+      <div flex layout layout-align="center center">
+        <span>{{vm.color.L}}</span>
+      </div>
+    </div>
+    <div layout>
+      <md-slider flex class="md-primary"
+        ng-model="vm.color.L" step="0.01" min="0" max="1">
+      </md-slider>
+    </div>
+  </md-content>
+</section>

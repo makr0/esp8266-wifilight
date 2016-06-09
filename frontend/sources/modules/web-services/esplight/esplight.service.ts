@@ -10,7 +10,9 @@ module app {
     private ROUTES = {
       listEffects: '/effects',
       setEffect: '/effect',
-      status: '/status'
+      status: '/status',
+      setColor: '/colors',
+      getStatus: '/status'
     };
     private baseUrl: string = '';
     private logger: ILogger;
@@ -39,6 +41,35 @@ module app {
     setEffect(effect: string): ng.IPromise<any> {
       this.logger.log('setting effect' + effect);
       return this.$http.get(this.baseUrl + this.ROUTES.setEffect, {params: {e: effect}})
+        .then((response: any ) => {
+          this.logger.log(response);
+          return response.data.message;
+        })
+        .catch(function() {
+          return [ 'Error, could not set effect' ];
+        });
+    };
+
+    getStatus(): ng.IPromise<any> {
+      return this.$http.get(this.baseUrl + this.ROUTES.getStatus)
+        .then((response: any ) => {
+          this.logger.log(response);
+          return response.data;
+        })
+        .catch(function() {
+          return [ 'Error, could not read status' ];
+        });
+    };
+
+    setColor(color: IColor): ng.IPromise<any> {
+      this.logger.log('setting color' + color.H + color.S + color.L);
+      let params = {
+        index: 0,
+        h: color.H,
+        s: color.S,
+        l: color.L
+      };
+      return this.$http.get(this.baseUrl + this.ROUTES.setColor, {params: params} )
         .then((response: any ) => {
           this.logger.log(response);
           return response.data.message;

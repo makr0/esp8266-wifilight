@@ -1,17 +1,36 @@
 <section id="settings-screen"  flex layout="column">
-  <md-list>
-    <md-list-item>
-      <span translate>Language</span>
-      <md-menu>
-        <md-button md-menu-origin ng-click="$mdOpenMenu()"><span>{{vm.currentLocale.id|translate}}</span></md-button>
-        <md-menu-content width="2">
-          <md-menu-item ng-repeat="language in ::vm.languages">
-            <md-button ng-click="vm.setLanguage(language)">
-              {{language|translate}}
-            </md-button>
-          </md-menu-item>
-        </md-menu-content>
-      </md-menu>
-    </md-list-item>
-  </md-list>
+  <md-content>
+    <md-list>
+      <md-list-item>
+        <span translate>Language</span>
+        <md-menu>
+          <md-button md-menu-origin ng-click="$mdOpenMenu()"><span>{{vm.currentLocale.id|translate}}</span></md-button>
+          <md-menu-content width="2">
+            <md-menu-item ng-repeat="language in ::vm.languages">
+              <md-button ng-click="vm.setLanguage(language)">
+                {{language|translate}}
+              </md-button>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+      </md-list-item>
+      <md-list-item>
+        <form>
+          <md-input-container>
+            <label for="url">lightServer</label>
+            <input type="text" id="lightServer"
+              ng-model="vm.lightServer" md-autofocus>
+          </md-input-container>
+        </form>
+      </md-list-item>
+      <md-list-item ng-repeat="device in ::vm.foundDevices"
+                    ng-click="vm.lightServer = device.url">
+        {{device.server}} {{ device.url }}
+      </md-list-item>
+    </md-list>
+  </md-content>
+  <md-button class="md-fab md-accent md-fab-bottom-right"
+             aria-label="refresh" ng-click="vm.scanDevices()">
+    <md-icon md-svg-src="images/icons/refresh.svg"></md-icon>
+  </md-button>
 </section>

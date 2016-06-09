@@ -26,6 +26,13 @@ module app {
         route: 'api'
       }
     },
+    dev: {
+      debug: true,
+      server: {
+        url: 'http://api.icndb.com',
+        route: ''
+      }
+    },
     production: {
       debug: false,
       server: {

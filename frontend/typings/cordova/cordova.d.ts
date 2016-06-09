@@ -79,6 +79,7 @@ interface Document {
 
 interface Window {
   cordova:Cordova;
+  serviceDiscovery: any;
 }
 
 // cordova/argscheck module

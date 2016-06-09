@@ -37,6 +37,10 @@ module app {
           'main': {
             templateUrl: 'modules/screens/effects/effects.html',
             controller: 'effectsController as vm'
+          },
+          'side': {
+            templateUrl: 'modules/screens/colors/colors.html',
+            controller: 'colorsController as vm',
           }
         },
         data: {title: gettext('Effects')}
