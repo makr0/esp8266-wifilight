@@ -1,7 +1,7 @@
 # API
 
 ## colors
-GET /setcolor?index=<index>&h=<hue>&s=<saturation>&l=<lightness>
+GET /colors?index=<index>&h=<hue>&s=<saturation>&l=<lightness>
 
 set color at index to the given H,S,L value
 index ranges from 0 to NUM_ANIMATIONS. The different colors are used by the effects in various ways

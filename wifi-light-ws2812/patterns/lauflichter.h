@@ -32,8 +32,8 @@ void animFN_lauflichter(const AnimationParam& param) {
 
 // parameter: speed, fade
 void pat_lauflichter( JsonObject *out ) {
-    int fadeSpeed=5;
-    int speed=5000;
+    int fadeSpeed=1;
+    int speed=pixelCount*50;
     int8_t fade=1;
 
     if (server.args() > 0 ) { for ( uint8_t i = 0; i < server.args(); i++ ) {

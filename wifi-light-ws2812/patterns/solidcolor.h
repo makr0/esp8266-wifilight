@@ -11,14 +11,16 @@ void pat_solidColor_start(float h, float s, float l,int speed = 2000) {
     for (uint16_t i=0; i<=progress * strip.PixelCount(); i++) {
         strip.SetPixelColor(i, globalState.color[0]);
     }
-    if (param.state == AnimationState_Completed) effect_active=0;
+    if (param.state == AnimationState_Completed) {
+        animations.RestartAnimation(param.index);
+    }
   });
 }
 
 // parameter: speed
 // color at index 0 is used
 void pat_solidColor( JsonObject *out ) {
-  int i,speed=2000;
+  int i,speed=pixelCount*10;
   float h,s,l;
 
   if (server.args() > 1 ) {

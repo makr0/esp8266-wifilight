@@ -42,6 +42,12 @@ configStore config;
 
 #include "color_conversions.h"
 #include "drivers/oled_display.h"
+
+//#define CELL_CAPACITY_mA 1000
+//#include <i2c_MAX17047.h>
+//MAX17047 fuelgauge;
+//#include "drivers/fuel_gauge.h"
+
 #include "ledstate.h"
 #include "effects.h"
 #include "protocols/ota.h"
@@ -60,6 +66,8 @@ void setup ( void ) {
     JsonObject& effect_message = jsonBuffer.createObject();
     initializeOLED_display();
     initializeLedstate();
+//    FuelGauge_start();
+//    FuelGauge_read();
     strip.Begin();
     effect_active=true;
     pat_solidColor( &effect_message );
