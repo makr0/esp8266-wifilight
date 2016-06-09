@@ -18,7 +18,7 @@ RUN locale-gen de_DE.UTF-8 && update-locale LANG=de_DE.UTF-8
 
 # install nodejs
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
-RUN npm install -g cordova
+RUN npm install -g cordova gulp
 
 # some dotfiles
 ADD .bash_aliases /root/
